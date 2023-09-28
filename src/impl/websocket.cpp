@@ -147,12 +147,12 @@ size_t WebSocket::maxMessageSize() const { return DEFAULT_MAX_MESSAGE_SIZE; }
 
 optional<message_variant> WebSocket::receive() {
 	auto next = mRecvQueue.pop();
-	return next ? std::make_optional(to_variant(std::move(**next))) : nullopt;
+	return next ? tl::make_optional(to_variant(std::move(**next))) : nullopt;
 }
 
 optional<message_variant> WebSocket::peek() {
 	auto next = mRecvQueue.peek();
-	return next ? std::make_optional(to_variant(std::move(**next))) : nullopt;
+	return next ? tl::make_optional(to_variant(std::move(**next))) : nullopt;
 }
 
 size_t WebSocket::availableAmount() const { return mRecvQueue.amount(); }

@@ -59,13 +59,13 @@ bool WebSocket::send(const byte *data, size_t size) {
 
 optional<string> WebSocket::remoteAddress() const {
 	auto tcpTransport = impl()->getTcpTransport();
-	return tcpTransport ? make_optional(tcpTransport->remoteAddress()) : nullopt;
+	return tcpTransport ? tl::make_optional(tcpTransport->remoteAddress()) : nullopt;
 }
 
 optional<string> WebSocket::path() const {
 	auto state = impl()->state.load();
 	auto handshake = impl()->getWsHandshake();
-	return state != State::Connecting && handshake ? make_optional(handshake->path()) : nullopt;
+	return state != State::Connecting && handshake ? tl::make_optional(handshake->path()) : nullopt;
 }
 
 } // namespace rtc

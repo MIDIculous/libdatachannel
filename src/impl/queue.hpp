@@ -112,7 +112,7 @@ template <typename T> optional<T> Queue<T>::pop() {
 
 template <typename T> optional<T> Queue<T>::peek() {
 	std::unique_lock lock(mMutex);
-	return !mQueue.empty() ? std::make_optional(mQueue.front()) : nullopt;
+	return !mQueue.empty() ? tl::make_optional(mQueue.front()) : nullopt;
 }
 
 template <typename T> optional<T> Queue<T>::exchange(T element) {
@@ -121,7 +121,7 @@ template <typename T> optional<T> Queue<T>::exchange(T element) {
 		return nullopt;
 
 	std::swap(mQueue.front(), element);
-	return std::make_optional(std::move(element));
+	return tl::make_optional(std::move(element));
 }
 
 } // namespace rtc::impl

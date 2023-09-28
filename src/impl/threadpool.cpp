@@ -73,7 +73,7 @@ bool ThreadPool::runOne() {
 std::function<void()> ThreadPool::dequeue() {
 	std::unique_lock lock(mMutex);
 	while (!mJoining) {
-		std::optional<clock::time_point> time;
+		optional<clock::time_point> time;
 		if (!mTasks.empty()) {
 			time = mTasks.top().time;
 			if (*time <= clock::now()) {

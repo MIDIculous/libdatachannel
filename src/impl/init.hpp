@@ -41,7 +41,7 @@ private:
 	void doInit();
 	void doCleanup();
 
-	std::optional<shared_ptr<void>> mGlobal;
+	optional<shared_ptr<void>> mGlobal;
 	weak_ptr<void> mWeak;
 	bool mInitialized = false;
 	SctpSettings mCurrentSctpSettings = {};

@@ -57,7 +57,7 @@ void PollService::add(socket_t sock, Params params) {
 
 	std::unique_lock lock(mMutex);
 	PLOG_VERBOSE << "Registering socket in poll service, direction=" << params.direction;
-	auto until = params.timeout ? std::make_optional(clock::now() + *params.timeout) : nullopt;
+	auto until = params.timeout ? tl::make_optional(clock::now() + *params.timeout) : nullopt;
 	assert(mSocks);
 	mSocks->insert_or_assign(sock, SocketEntry{std::move(params), std::move(until)});
 
@@ -128,7 +128,7 @@ void PollService::process(std::vector<struct pollfd> &pfds) {
 
 				} else if (it->revents & POLLIN || it->revents & POLLOUT || it->revents & POLLHUP) {
 					entry.until = params.timeout
-					                  ? std::make_optional(clock::now() + *params.timeout)
+					                  ? tl::make_optional(clock::now() + *params.timeout)
 					                  : nullopt;
 
 					auto callback = params.callback;

@@ -12,7 +12,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
-#include <optional>
+// #include <optional>
 #include <tuple>
 #include <utility>
 
@@ -125,7 +125,7 @@ private:
 		return true;
 	}
 
-	mutable std::optional<std::tuple<Args...>> stored;
+	mutable optional<std::tuple<Args...>> stored;
 };
 
 // pimpl base class

@@ -109,12 +109,12 @@ void DataChannel::remoteClose() { close(); }
 
 optional<message_variant> DataChannel::receive() {
 	auto next = mRecvQueue.pop();
-	return next ? std::make_optional(to_variant(std::move(**next))) : nullopt;
+	return next ? tl::make_optional(to_variant(std::move(**next))) : nullopt;
 }
 
 optional<message_variant> DataChannel::peek() {
 	auto next = mRecvQueue.peek();
-	return next ? std::make_optional(to_variant(**next)) : nullopt;
+	return next ? tl::make_optional(to_variant(**next)) : nullopt;
 }
 
 size_t DataChannel::availableAmount() const { return mRecvQueue.amount(); }
@@ -250,12 +250,12 @@ void OutgoingDataChannel::open(shared_ptr<SctpTransport> transport) {
 	switch (mReliability->type) {
 	case Reliability::Type::Rexmit:
 		channelType = CHANNEL_PARTIAL_RELIABLE_REXMIT;
-		reliabilityParameter = uint32_t(std::max(std::get<int>(mReliability->rexmit), 0));
+		reliabilityParameter = uint32_t(std::max(get<int>(mReliability->rexmit), 0));
 		break;
 
 	case Reliability::Type::Timed:
 		channelType = CHANNEL_PARTIAL_RELIABLE_TIMED;
-		reliabilityParameter = uint32_t(std::get<milliseconds>(mReliability->rexmit).count());
+		reliabilityParameter = uint32_t(get<milliseconds>(mReliability->rexmit).count());
 		break;
 
 	default:

@@ -241,11 +241,11 @@ bool Candidate::isResolved() const { return mFamily != Family::Unresolved; }
 Candidate::Family Candidate::family() const { return mFamily; }
 
 optional<string> Candidate::address() const {
-	return isResolved() ? std::make_optional(mAddress) : nullopt;
+	return isResolved() ? tl::make_optional(mAddress) : nullopt;
 }
 
 optional<uint16_t> Candidate::port() const {
-	return isResolved() ? std::make_optional(mPort) : nullopt;
+	return isResolved() ? tl::make_optional(mPort) : nullopt;
 }
 
 } // namespace rtc

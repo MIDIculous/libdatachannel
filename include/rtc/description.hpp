@@ -230,25 +230,25 @@ public:
 	public:
 		Audio(string mid = "audio", Direction dir = Direction::SendOnly);
 
-		void addAudioCodec(int payloadType, string codec, optional<string> profile = std::nullopt);
+		void addAudioCodec(int payloadType, string codec, optional<string> profile = nullopt);
 
 		void addOpusCodec(int payloadType, optional<string> profile = DEFAULT_OPUS_AUDIO_PROFILE);
-		void addPCMACodec(int payloadType, optional<string> profile = std::nullopt);
-		void addPCMUCodec(int payloadType, optional<string> profile = std::nullopt);
-		void addAacCodec(int payloadType, optional<string> profile = std::nullopt);
+		void addPCMACodec(int payloadType, optional<string> profile = nullopt);
+		void addPCMUCodec(int payloadType, optional<string> profile = nullopt);
+		void addAacCodec(int payloadType, optional<string> profile = nullopt);
 	};
 
 	class RTC_CPP_EXPORT Video : public Media {
 	public:
 		Video(string mid = "video", Direction dir = Direction::SendOnly);
 
-		void addVideoCodec(int payloadType, string codec, optional<string> profile = std::nullopt);
+		void addVideoCodec(int payloadType, string codec, optional<string> profile = nullopt);
 
 		void addH264Codec(int payloadType, optional<string> profile = DEFAULT_H264_VIDEO_PROFILE);
-		void addH265Codec(int payloadType, optional<string> profile = std::nullopt);
-		void addVP8Codec(int payloadType, optional<string> profile = std::nullopt);
-		void addVP9Codec(int payloadType, optional<string> profile = std::nullopt);
-		void addAV1Codec(int payloadType, optional<string> profile = std::nullopt);
+		void addH265Codec(int payloadType, optional<string> profile = nullopt);
+		void addVP8Codec(int payloadType, optional<string> profile = nullopt);
+		void addVP9Codec(int payloadType, optional<string> profile = nullopt);
+		void addAV1Codec(int payloadType, optional<string> profile = nullopt);
 	};
 
 	bool hasApplication() const;

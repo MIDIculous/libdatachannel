@@ -99,7 +99,7 @@ private:
 	const size_t mMaxMessageSize;
 	const Ports mPorts;
 	struct socket *mSock;
-	std::optional<uint16_t> mNegotiatedStreamsCount;
+	optional<uint16_t> mNegotiatedStreamsCount;
 
 	Processor mProcessor;
 	std::atomic<int> mPendingRecvCount = 0;

@@ -44,7 +44,7 @@ int lastId = 0;
 optional<void *> getUserPointer(int id) {
 	std::lock_guard lock(mutex);
 	auto it = userPointerMap.find(id);
-	return it != userPointerMap.end() ? std::make_optional(it->second) : nullopt;
+	return it != userPointerMap.end() ? tl::make_optional(it->second) : nullopt;
 }
 
 void setUserPointer(int i, void *ptr) {
@@ -874,7 +874,7 @@ int rtcReceiveMessage(int id, char *buffer, int *size) {
 		if (!message)
 			return RTC_ERR_NOT_AVAIL;
 
-		return std::visit( //
+		return visit( //
 		    overloaded{
 		        [&](binary b) {
 			        int ret = copyAndReturn(std::move(b), buffer, *size);
@@ -932,7 +932,7 @@ int rtcCreateDataChannelEx(int pc, const char *label, const rtcDataChannelInit *
 			}
 
 			dci.negotiated = init->negotiated;
-			dci.id = init->manualStream ? std::make_optional(init->stream) : nullopt;
+			dci.id = init->manualStream ? tl::make_optional(init->stream) : nullopt;
 			dci.protocol = init->protocol ? init->protocol : "";
 		}
 
@@ -992,10 +992,10 @@ int rtcGetDataChannelReliability(int dc, rtcReliability *reliability) {
 		reliability->unordered = dcr.unordered;
 		if (dcr.type == Reliability::Type::Timed) {
 			reliability->unreliable = true;
-			reliability->maxPacketLifeTime = int(std::get<milliseconds>(dcr.rexmit).count());
+			reliability->maxPacketLifeTime = int(get<milliseconds>(dcr.rexmit).count());
 		} else if (dcr.type == Reliability::Type::Rexmit) {
 			reliability->unreliable = true;
-			reliability->maxRetransmits = std::get<int>(dcr.rexmit);
+			reliability->maxRetransmits = get<int>(dcr.rexmit);
 		} else {
 			reliability->unreliable = false;
 		}
@@ -1051,7 +1051,7 @@ int rtcAddTrackEx(int pc, const rtcTrackInit *init) {
 		}
 
 		int pt = init->payloadType;
-		auto profile = init->profile ? std::make_optional(string(init->profile)) : nullopt;
+		auto profile = init->profile ? tl::make_optional(string(init->profile)) : nullopt;
 
 		unique_ptr<Description::Media> description;
 		switch (init->codec) {
@@ -1111,9 +1111,9 @@ int rtcAddTrackEx(int pc, const rtcTrackInit *init) {
 			throw std::invalid_argument("Unexpected codec");
 
 		description->addSSRC(init->ssrc,
-		                     init->name ? std::make_optional(string(init->name)) : nullopt,
-		                     init->msid ? std::make_optional(string(init->msid)) : nullopt,
-		                     init->trackId ? std::make_optional(string(init->trackId)) : nullopt);
+		                     init->name ? tl::make_optional(string(init->name)) : nullopt,
+		                     init->msid ? tl::make_optional(string(init->msid)) : nullopt,
+		                     init->trackId ? tl::make_optional(string(init->trackId)) : nullopt);
 
 		int tr = emplaceTrack(peerConnection->addTrack(std::move(*description)));
 
@@ -1400,8 +1400,8 @@ int rtcGetSsrcsForType(const char *mediaType, const char *sdp, uint32_t *buffer,
 		auto description = Description(oldSDP, "unspec");
 		auto mediaCount = description.mediaCount();
 		for (unsigned int i = 0; i < mediaCount; i++) {
-			if (std::holds_alternative<Description::Media *>(description.media(i))) {
-				auto media = std::get<Description::Media *>(description.media(i));
+			if (holds_alternative<Description::Media *>(description.media(i))) {
+				auto media = get<Description::Media *>(description.media(i));
 				auto currentMediaType = lowercased(media->type());
 				if (currentMediaType == type) {
 					auto ssrcs = media->getSSRCs();
@@ -1421,8 +1421,8 @@ int rtcSetSsrcForType(const char *mediaType, const char *sdp, char *buffer, cons
 		auto description = Description(prevSDP, "unspec");
 		auto mediaCount = description.mediaCount();
 		for (unsigned int i = 0; i < mediaCount; i++) {
-			if (std::holds_alternative<Description::Media *>(description.media(i))) {
-				auto media = std::get<Description::Media *>(description.media(i));
+			if (holds_alternative<Description::Media *>(description.media(i))) {
+				auto media = get<Description::Media *>(description.media(i));
 				auto currentMediaType = lowercased(media->type());
 				if (currentMediaType == type) {
 					setSSRC(media, init->ssrc, init->name, init->msid, init->trackId);
@@ -1527,11 +1527,11 @@ RTC_C_EXPORT int rtcCreateWebSocketServer(const rtcWsServerConfiguration *config
 		c.port = config->port;
 		c.enableTls = config->enableTls;
 		c.certificatePemFile = config->certificatePemFile
-		                           ? make_optional(string(config->certificatePemFile))
+		                           ? tl::make_optional(string(config->certificatePemFile))
 		                           : nullopt;
-		c.keyPemFile = config->keyPemFile ? make_optional(string(config->keyPemFile)) : nullopt;
-		c.keyPemPass = config->keyPemPass ? make_optional(string(config->keyPemPass)) : nullopt;
-		c.bindAddress = config->bindAddress ? make_optional(string(config->bindAddress)) : nullopt;
+		c.keyPemFile = config->keyPemFile ? tl::make_optional(string(config->keyPemFile)) : nullopt;
+		c.keyPemPass = config->keyPemPass ? tl::make_optional(string(config->keyPemPass)) : nullopt;
+		c.bindAddress = config->bindAddress ? tl::make_optional(string(config->bindAddress)) : nullopt;
 		auto webSocketServer = std::make_shared<WebSocketServer>(std::move(c));
 		int wsserver = emplaceWebSocketServer(webSocketServer);
 

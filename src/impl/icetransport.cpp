@@ -224,7 +224,7 @@ optional<string> IceTransport::getLocalAddress() const {
 	char str[JUICE_MAX_ADDRESS_STRING_LEN];
 	if (juice_get_selected_addresses(mAgent.get(), str, JUICE_MAX_ADDRESS_STRING_LEN, NULL, 0) ==
 	    0) {
-		return std::make_optional(string(str));
+		return tl::make_optional(string(str));
 	}
 	return nullopt;
 }
@@ -232,7 +232,7 @@ optional<string> IceTransport::getRemoteAddress() const {
 	char str[JUICE_MAX_ADDRESS_STRING_LEN];
 	if (juice_get_selected_addresses(mAgent.get(), NULL, 0, str, JUICE_MAX_ADDRESS_STRING_LEN) ==
 	    0) {
-		return std::make_optional(string(str));
+		return tl::make_optional(string(str));
 	}
 	return nullopt;
 }
@@ -700,7 +700,7 @@ optional<string> IceTransport::getLocalAddress() const {
 	NiceCandidate *local = nullptr;
 	NiceCandidate *remote = nullptr;
 	if (nice_agent_get_selected_pair(mNiceAgent.get(), mStreamId, 1, &local, &remote)) {
-		return std::make_optional(AddressToString(local->addr));
+		return tl::make_optional(AddressToString(local->addr));
 	}
 	return nullopt;
 }
@@ -709,7 +709,7 @@ optional<string> IceTransport::getRemoteAddress() const {
 	NiceCandidate *local = nullptr;
 	NiceCandidate *remote = nullptr;
 	if (nice_agent_get_selected_pair(mNiceAgent.get(), mStreamId, 1, &local, &remote)) {
-		return std::make_optional(AddressToString(remote->addr));
+		return tl::make_optional(AddressToString(remote->addr));
 	}
 	return nullopt;
 }

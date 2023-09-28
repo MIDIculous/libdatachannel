@@ -40,6 +40,8 @@
 #define RTC_ENABLE_MEDIA 1
 #endif
 
+#include "../../../overrides/overrides.h"
+
 #include "rtc.h" // for C API defines
 
 #include "utils.hpp"
@@ -48,22 +50,22 @@
 #include <functional>
 #include <memory>
 #include <mutex>
-#include <optional>
+// #include <optional>
 #include <string>
 #include <string_view>
-#include <variant>
+// #include <variant>
 #include <vector>
 
 namespace rtc {
 
 using std::byte;
-using std::nullopt;
-using std::optional;
+// using nullopt;
+// using std::optional;
 using std::shared_ptr;
 using std::string;
 using std::string_view;
 using std::unique_ptr;
-using std::variant;
+// using std::variant;
 using std::weak_ptr;
 
 using binary = std::vector<byte>;

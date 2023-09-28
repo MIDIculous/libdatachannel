@@ -90,7 +90,7 @@ public:
 	using shared_lock = std::shared_lock<std::shared_mutex>;
 	optional<shared_lock> lock(SctpTransport *instance) noexcept {
 		shared_lock lock(mMutex);
-		return mSet.find(instance) != mSet.end() ? std::make_optional(std::move(lock)) : nullopt;
+		return mSet.find(instance) != mSet.end() ? tl::make_optional(std::move(lock)) : nullopt;
 	}
 
 private:
@@ -643,12 +643,12 @@ bool SctpTransport::trySendMessage(message_ptr message) {
 	case Reliability::Type::Rexmit:
 		spa.sendv_flags |= SCTP_SEND_PRINFO_VALID;
 		spa.sendv_prinfo.pr_policy = SCTP_PR_SCTP_RTX;
-		spa.sendv_prinfo.pr_value = to_uint32(std::get<int>(reliability.rexmit));
+		spa.sendv_prinfo.pr_value = to_uint32(get<int>(reliability.rexmit));
 		break;
 	case Reliability::Type::Timed:
 		spa.sendv_flags |= SCTP_SEND_PRINFO_VALID;
 		spa.sendv_prinfo.pr_policy = SCTP_PR_SCTP_TTL;
-		spa.sendv_prinfo.pr_value = to_uint32(std::get<milliseconds>(reliability.rexmit).count());
+		spa.sendv_prinfo.pr_value = to_uint32(get<milliseconds>(reliability.rexmit).count());
 		break;
 	default:
 		spa.sendv_prinfo.pr_policy = SCTP_PR_SCTP_NONE;

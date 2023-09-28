@@ -37,7 +37,7 @@ void Channel::onMessage(std::function<void(message_variant data)> callback) {
 void Channel::onMessage(std::function<void(binary data)> binaryCallback,
                         std::function<void(string data)> stringCallback) {
 	onMessage([binaryCallback, stringCallback](variant<binary, string> data) {
-		std::visit(overloaded{binaryCallback, stringCallback}, std::move(data));
+		visit(overloaded{binaryCallback, stringCallback}, std::move(data));
 	});
 }
 

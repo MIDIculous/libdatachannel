@@ -805,7 +805,7 @@ void PeerConnection::validateRemoteDescription(const Description &description) {
 
 	int activeMediaCount = 0;
 	for (unsigned int i = 0; i < description.mediaCount(); ++i)
-		std::visit(rtc::overloaded{[&](const Description::Application *application) {
+		visit(rtc::overloaded{[&](const Description::Application *application) {
 			                           if (!application->isRemoved())
 				                           ++activeMediaCount;
 		                           },
@@ -838,7 +838,7 @@ void PeerConnection::processLocalDescription(Description description) {
 	if (auto remote = remoteDescription()) {
 		// Reciprocate remote description
 		for (unsigned int i = 0; i < remote->mediaCount(); ++i)
-			std::visit( // reciprocate each media
+			visit( // reciprocate each media
 			    rtc::overloaded{
 			        [&](Description::Application *remoteApp) {
 				        std::shared_lock lock(mDataChannelsMutex);
@@ -1249,7 +1249,7 @@ void PeerConnection::updateTrackSsrcCache(const Description &description) {
 
 	// Setup SSRC -> Track mapping
 	for (unsigned int i = 0; i < description.mediaCount(); ++i)
-		std::visit( // ssrc -> track mapping
+		visit( // ssrc -> track mapping
 		    rtc::overloaded{
 		        [&](Description::Application const *) { return; },
 		        [&](Description::Media const *media) {
